@@ -10,6 +10,7 @@ requires 'PPI';
 requires 'Path::Class';
 
 build_requires 'Test::More';
+build_requires 'Text::Table';
 
 repository 'http://github.com/monken/Devel-IntelliPerl/tree/master';
 
