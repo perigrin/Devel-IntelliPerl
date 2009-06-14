@@ -5,6 +5,7 @@ use Moose;
 use Exporter qw(import);
 use Devel::IntelliPerl;
 use Text::Table;
+use File::Slurp;
 
 extends 'Devel::IntelliPerl::Editor';
 
@@ -16,16 +17,17 @@ sub run {
     my ($self) = @_;
     my @source;
     my ( $line_number, $column, $filename ) = @ARGV;
-    push( @source, $_ ) while (<STDIN>);
+    my $word = join '', <STDIN>;
+    my $source = read_file($filename);
     my $ip = Devel::IntelliPerl->new(
         line_number => $line_number,
         column      => $column + 1,
-        source      => join( '', @source ),
+        source      => $source,
         filename => $filename
     );
     my @methods = $ip->methods;
     if(@methods) {
-    print map {$_.$/} @methods;
+    print map {$_.$/} @methods;        
     } elsif (my $error = $ip->error) {
         print '$error$The following error occured:'.$/.$error;
     }
